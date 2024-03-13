@@ -23,3 +23,13 @@ Downloading a PhpMyAdmin Docker image
 ```sh
 docker pull phpmyadmin:latest
 ```
+
+Starting Application
+```sh
+docker-compose up -d
+```
+
+Stoping Application
+```sh
+docker-compose down
+```
