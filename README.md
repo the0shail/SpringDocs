@@ -1,4 +1,4 @@
-# Application Spring Boot + MySQL + RabbitMQ + Docker
+# Spring Boot + MySQL + RabbitMQ + Docker
 
 ## Installation
 
