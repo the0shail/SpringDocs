@@ -1,6 +1,7 @@
+# Application Spring Boot + MySQL + RabbitMQ + Docker
 ## Installation
-
-Dillinger requires [Docker] v25+ to run.
+[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
+Dillinger requires [Docker](https://www.docker.com/) v25+ to run.
 
 Downloading the Docker image of the Spring application
 ```sh
