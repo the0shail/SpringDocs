@@ -1,0 +1,65 @@
+version: '2.1'
+services:
+  rabbitmq:
+    image: rabbitmq:3.13.0-management
+    container_name: doc_rabbitmq
+    hostname: rabbitmq
+    restart: always
+    environment:
+      - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbit disk_free_limit 2147483648
+    volumes:
+      - ./rabbitmq:/var/lib/rabbitmq
+    ports:
+      - "10000:15672"
+      - "5672:5672"
+    networks:
+      - doc_network
+
+  mysql:
+    image: mysql:latest
+    restart: always
+    container_name: doc_mysql
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3306:3306"
+    networks:
+      - doc_network
+
+  phpMyAdmin:
+    image: phpmyadmin:latest
+    container_name: doc_phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mysql
+    ports:
+      - "10001:80"
+    depends_on:
+      - mysql
+
+  spring:
+    image: sender:latest
+    container_name: doc_app
+    restart: always
+    environment:
+      - SPRING_RABBITMQ_VIRTUAL_HOST=vdoc
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_USERNAME=sender_1
+      - SPRING_RABBITMQ_PASSWORD=sender_1
+      - SPRING_DATASOURCE_USERNAME=the0shail
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/docs?allowPublicKeyRetrieval=true
+    ports:
+      - "10002:9000"
+    depends_on:
+      - mysql
+      - rabbitmq
+    networks:
+      - doc_network
+
+networks:
+  doc_network:
+    driver: bridge
+
